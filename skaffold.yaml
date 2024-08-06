@@ -1,0 +1,69 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: powerconnect
+manifests:
+ rawYaml:
+ - ./infra/k8s/*
+deploy:
+ kubectl: {}
+build:
+  local:
+    push: false
+  artifacts:
+    - image: powerconnect/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/clients
+      context: clients
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/users
+      context: users
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/reports
+      context: reports
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/notifications
+      context: notifications
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/energy-monitor
+      context: energy-monitor
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: powerconnect/billing
+      context: billing
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
