@@ -1,0 +1,46 @@
+# Ignore dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore local and sensitive configuration files
+.env
+.env.*
+.aws
+*.pem
+
+# Ignore log files
+logs/
+*.log
+
+# Ignore build output directories
+dist/
+build/
+out/
+
+# Ignore temporary and system files
+.DS_Store
+Thumbs.db
+.tmp/
+temp/
+
+# Ignore test and coverage directories
+tests/
+coverage/
+*.cover
+*.lcov
+
+# Ignore editor and development environment configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Git configuration
+.git/
+.gitattributes
+.gitignore
+
+# Ignore Docker-specific files
+Dockerfile
+docker-compose*
