@@ -1,0 +1,78 @@
+# Node modules directory
+node_modules/
+
+# Build directories
+dist/
+build/
+out/
+
+# TypeScript declaration files
+*.d.ts
+
+# Configuration files
+tsconfig.json
+tsconfig.*.json
+.eslintrc.js
+.eslintrc.json
+.prettierrc.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Coverage directory used by tools like Jest or Istanbul
+coverage/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# MacOS specific files
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.orig
+*.rej
+*.lock
+
+# Project specific
+tmp/
+temp/
+logs/
