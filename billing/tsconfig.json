@@ -14,7 +14,7 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "outDir": "./dist",
     "incremental": true,
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "rootDir": ".",
     "lib": ["ES2020"]
 
