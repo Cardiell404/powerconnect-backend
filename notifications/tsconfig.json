@@ -16,17 +16,9 @@
     "incremental": true,
     "baseUrl": "./",
     "rootDir": ".",
-    "paths": {
-      "@tests/*": ["tests/*"],
-      "@powerConnect/shared": ["node_modules/@powerconnect/shared"]
-    },
     "lib": ["ES2020"]
 
   },
-  "include": [
-    "src/**/**.ts",
-    "tests/**/**.ts"
-  ],
   "exclude": [
     "node_modules"
   ]
