@@ -1,4 +1,4 @@
-import { Nullable, UserAvatar } from '@powerConnect/shared';
+import { Nullable, UserAvatar } from '@powerconnect/shared';
 
 export interface BucketRepository {
   getAvatar(key: string): Promise<Nullable<UserAvatar>>;

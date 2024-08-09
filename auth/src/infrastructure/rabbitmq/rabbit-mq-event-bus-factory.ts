@@ -3,7 +3,7 @@ import {
   RabbitMQEventBus,
   RabbitMQConnection,
   DomainEventFailoverPublisher
-} from '@powerConnect/shared';
+} from '@powerconnect/shared';
 import { RabbitMQConfig } from './rabbit-mq-config-factory';
 
 export class RabbitMQEventBusFactory {

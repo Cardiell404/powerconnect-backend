@@ -1,4 +1,4 @@
-import { Query } from '@powerConnect/shared';
+import { Query } from '@powerconnect/shared';
 import { AuthCurrentUserResponse } from './auth-current-user-response';
 import { AuthCurrentUser } from './auth-current-user';
 import { AuthCurrentUserQuery } from './auth-current-user-query';

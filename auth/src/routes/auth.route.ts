@@ -1,4 +1,4 @@
-import { JwtMiddleware } from '@powerConnect/shared';
+import { JwtMiddleware } from '@powerconnect/shared';
 import { Express } from 'express';
 import container from '../dependency-injection';
 import { AuthLoginController } from '../controllers/auth-login-controller';

@@ -1,5 +1,5 @@
 import config from '../../config';
-import { DynamoDBConfig } from '@powerConnect/shared';
+import { DynamoDBConfig } from '@powerconnect/shared';
 
 export class DynamoConfigFactory {
   static createConfig(): DynamoDBConfig {

@@ -1,4 +1,4 @@
-import { CryptoImplement, QueryBus, ValidateFields } from '@powerConnect/shared';
+import { CryptoImplement, QueryBus, ValidateFields } from '@powerconnect/shared';
 import { Request, Response } from 'express';
 import { body, ValidationChain } from 'express-validator';
 import { AuthLoginResponse } from '../application/login/auth-login-response';

@@ -1,4 +1,4 @@
-import { JwtImplement } from '@powerConnect/shared';
+import { JwtImplement } from '@powerconnect/shared';
 import { AuthLoginResponse } from './auth-login-response';
 import { AuthRepository } from '../../domain/auth-repository';
 import { AuthNotExist } from '../../domain/errors/auth-not-exist';

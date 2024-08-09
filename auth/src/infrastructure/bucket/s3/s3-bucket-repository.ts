@@ -1,4 +1,4 @@
-import { Nullable, UserAvatar, S3Repository } from '@powerConnect/shared';
+import { Nullable, UserAvatar, S3Repository } from '@powerconnect/shared';
 import { BucketRepository } from '../../../domain/s3/bucket-repository';
 
 export class S3BucketRepository extends S3Repository implements BucketRepository {

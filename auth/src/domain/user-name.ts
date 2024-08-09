@@ -1,4 +1,4 @@
-import { StringValueObject, InvalidArgumentError } from '@powerConnect/shared';
+import { StringValueObject, InvalidArgumentError } from '@powerconnect/shared';
 
 export class UserName extends StringValueObject {
   constructor(value: string) {

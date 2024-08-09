@@ -1,4 +1,4 @@
-import { RabbitMQConnection, RabbitMQConfigurer, DomainEventSubscribers } from '@powerConnect/shared';
+import { RabbitMQConnection, RabbitMQConfigurer, DomainEventSubscribers } from '@powerconnect/shared';
 import container from '../dependency-injection';
 import { RabbitMQConfig } from '../infrastructure/rabbitmq/rabbit-mq-config-factory';
 

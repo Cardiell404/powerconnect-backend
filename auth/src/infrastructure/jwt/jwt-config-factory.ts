@@ -1,4 +1,4 @@
-import { JwtConfig } from '@powerConnect/shared';
+import { JwtConfig } from '@powerconnect/shared';
 import config from '../config';
 
 export class JwtConfigFactory {

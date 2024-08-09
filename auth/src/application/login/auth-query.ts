@@ -1,4 +1,4 @@
-import { Query } from '@powerConnect/shared';
+import { Query } from '@powerconnect/shared';
 
 type Params = {
   email: string;

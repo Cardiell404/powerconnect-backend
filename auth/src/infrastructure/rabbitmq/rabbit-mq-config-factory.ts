@@ -1,4 +1,4 @@
-import { ConnectionSettings, ExchangeSetting } from '@powerConnect/shared';
+import { ConnectionSettings, ExchangeSetting } from '@powerconnect/shared';
 import config from '../config';
 
 export type RabbitMQConfig = {

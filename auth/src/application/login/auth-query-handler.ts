@@ -1,7 +1,7 @@
 import { AuthLoginResponse } from './auth-login-response';
 import { AuthQuery } from './auth-query';
 import { AuthLogin } from './auth-login';
-import { Query } from '@powerConnect/shared';
+import { Query } from '@powerconnect/shared';
 
 export class AuthQueryHandler {
   constructor(private authLogin: AuthLogin) {}

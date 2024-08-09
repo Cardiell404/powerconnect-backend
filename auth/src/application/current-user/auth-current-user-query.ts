@@ -1,4 +1,4 @@
-import { Query } from '@powerConnect/shared';
+import { Query } from '@powerconnect/shared';
 
 export class AuthCurrentUserQuery extends Query {
   _id: string;

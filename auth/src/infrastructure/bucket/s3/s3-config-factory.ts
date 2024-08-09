@@ -1,4 +1,4 @@
-import { S3Config } from '@powerConnect/shared';
+import { S3Config } from '@powerconnect/shared';
 import config from '../../config';
 
 export class S3ConfigFactory {
