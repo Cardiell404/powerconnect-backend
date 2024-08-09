@@ -10,7 +10,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node ./dist/src/start.js",
+    "start": "node ./dist/src/start.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/start.ts",
     "start:prod": "npm run build && node /dist/src/start",
     "build": "npm run clean && npm run build:tsc && npm run copy:di",
@@ -25,8 +25,8 @@
     "test:coverage": "jest --coverage",
     "security:check": "npx npm-check-updates",
     "security:audit": "npm audit --json > security_report.json",
-    "podman:build": "podman build -t clients .",
-    "podman:run": "podman run -d -p 3000:3000 clients",
+    "docker:build": "docker build -t powerconnect/clients .",
+    "docker:run": "docker run -d -p 3000:3000 powerconnect/clients",
     "precomit": "lint-staged",
     "prepush": "npm run test:coverage",
     "deploy": "pm2 start dist/src/start.js --name 'clients' --env production",
@@ -41,7 +41,7 @@
     "ci:deploy": "npm run deploy"
   },
   "dependencies": {
-    "@powerconnect/shared": "0.0.9",
+    "@powerconnect/shared": "0.0.11",
     "compression": "^1.7.4",
     "convict": "^6.2.4",
     "cookie-session": "^2.0.0",

@@ -10,11 +10,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node ./dist/src/start.js",
+    "start": "npm run rabbitmq && node ./dist/src/start.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/start.ts",
     "start:prod": "npm run build && node /dist/src/start",
     "build": "npm run clean && npm run build:tsc && npm run copy:di",
-    "build:tsc": "tsc -p tsconfig.prod.json",
+    "build:tsc": "tsc -p ./tsconfig.prod.json",
     "clean": "rm -rf dist",
     "copy:di": "copy 'src/**/*.{json,yaml,html,png}' dist/src",
     "lint": "eslint 'src/**/*.ts'",
@@ -25,8 +25,8 @@
     "test:coverage": "jest --coverage",
     "security:check": "npx npm-check-updates",
     "security:audit": "npm audit --json > security_report.json",
-    "podman:build": "podman build -t auth .",
-    "podman:run": "podman run -d -p 3000:3000 auth",
+    "docker:build": "docker build -t powerconnect/auth .",
+    "docker:run": "docker run -d -p 3000:3000 powerconnect/auth",
     "precomit": "lint-staged",
     "prepush": "npm run test:coverage",
     "deploy": "pm2 start dist/src/start.js --name 'auth' --env production",
@@ -38,10 +38,11 @@
     "ci:install": "npm ci",
     "ci:test": "npm run lint && npm run test:coverage",
     "ci:build": "npm run build",
-    "ci:deploy": "npm run deploy"
+    "ci:deploy": "npm run deploy",
+    "rabbitmq": "node ./dist/src/command/run-configure-rabbit-mq-command.js"
   },
   "dependencies": {
-    "@powerconnect/shared": "0.0.9",
+    "@powerconnect/shared": "0.0.11",
     "compression": "^1.7.4",
     "convict": "^6.2.4",
     "cookie-session": "^2.0.0",
