@@ -8,7 +8,7 @@ import {
   QueryHandlers,
   InMemoryQueryBus,
   CryptoFactory
-} from '@powerConnect/shared';
+} from '@powerconnect/shared';
 
 const sharedContainer = new ContainerBuilder();
 
