@@ -22,3 +22,5 @@ export * from './query-bus';
 export * from './query-handler';
 export * from './query-not-registered-error';
 export * from './response';
+
+export * from './events/index';
