@@ -14,18 +14,14 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "outDir": "./dist",
     "incremental": true,
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "rootDir": ".",
-    "paths": {
-      "@tests/*": ["tests/*"],
-      "@powerConnect/shared": ["node_modules/@powerconnect/shared"]
-    },
     "lib": ["ES2020"]
 
   },
   "include": [
-    "src/**/**.ts",
-    "tests/**/**.ts"
+    "src/**/*.ts",
+    "tests/**/*.ts"
   ],
   "exclude": [
     "node_modules"
