@@ -16,7 +16,7 @@ import {
   RabbitMQqueueFormatter,
   RabbitMQConfigurer,
   DomainEventFailoverPublisher
-} from '@powerConnect/shared';
+} from '@powerconnect/shared';
 import { JwtConfigFactory } from '../../infrastructure/jwt/jwt-config-factory';
 import { S3ConfigFactory } from '../../infrastructure/bucket/s3/s3-config-factory';
 import { DynamoConfigFactory } from '../../infrastructure/persistence/dynamo/dynamo-config-factory';
@@ -27,6 +27,8 @@ import { AuthLogin } from '../../application/login/auth-login';
 import { AuthCurrentUser } from '../../application/current-user/auth-current-user';
 import AuthCurrentUserQueryHandler from '../../application/current-user/auth-current-user-query-handler';
 import { AuthQueryHandler } from '../../application/login/auth-query-handler';
+import { AuthCreationService } from '../../application/events/created/auth-creation-service';
+import { AuthOnUserCreatedListener } from '../../application/events/created/auth-on-user-created-listener';
 
 const sharedContainer = new ContainerBuilder();
 sharedContainer.setDefinition(
@@ -132,6 +134,15 @@ sharedContainer
 sharedContainer
   .register('Auth.AuthQueryHandler', AuthQueryHandler, [sharedContainer.get('Auth.AuthLogin')])
   .addTag('queryHandler');
+
+sharedContainer
+  .register('Auth.AuthEventCreator', AuthCreationService, [
+    sharedContainer.get('Auth.AuthRepository')
+  ])
+
+sharedContainer
+  .register('Auth.AuthCreated', AuthOnUserCreatedListener, [sharedContainer.get('Auth.AuthEventCreator')])
+  .addTag('domainEventSubscriber');
 
 // ------------------------------------------------------------------------------------------------------------
 sharedContainer.setDefinition(

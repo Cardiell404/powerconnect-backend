@@ -1,4 +1,4 @@
-import { Nullable, DynamoDBRepository, Filters } from '@powerConnect/shared';
+import { Nullable, DynamoDBRepository, Filters } from '@powerconnect/shared';
 import { AuthRepository } from '../../../domain/auth-repository';
 import { Auth } from '../../../domain/auth';
 import { IAuth } from '../../../domain/i-auth';
@@ -28,5 +28,9 @@ export class DynamoAuthRepository extends DynamoDBRepository<Auth> implements Au
           id: auth.id
         })
       : null;
+  }
+
+  public async save(auth: Auth) {
+    await this.persist(auth);
   }
 }

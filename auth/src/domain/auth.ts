@@ -1,6 +1,6 @@
 import { AuthPassword } from './value-objects/auth-password';
 import { AuthEmail } from './value-objects/auth-email';
-import { AuthId, AggregateRoot } from '@powerConnect/shared';
+import { AuthId, AggregateRoot } from '@powerconnect/shared';
 import { UserName } from './user-name';
 
 export class Auth extends AggregateRoot {
