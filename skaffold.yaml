@@ -19,8 +19,8 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: powerconnect/clients
-      context: clients
+    - image: powerconnect/customer
+      context: customer
       docker:
         dockerfile: Dockerfile
       sync:
