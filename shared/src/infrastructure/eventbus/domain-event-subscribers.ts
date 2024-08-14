@@ -6,7 +6,7 @@ export class DomainEventSubscribers {
   constructor(public items: Array<DomainEventSubscriber<DomainEvent>>) {}
 
   static from(container: ContainerBuilder): DomainEventSubscribers {
-    const subscriberDefinitions = container.findTaggedServiceIds('domainEventSubscriber')
+    const subscriberDefinitions = container.findTaggedServiceIds('domainEventSubscriber');
     const subscribers: Array<DomainEventSubscriber<DomainEvent>> = [];
 
     for (const { id } of subscriberDefinitions) {

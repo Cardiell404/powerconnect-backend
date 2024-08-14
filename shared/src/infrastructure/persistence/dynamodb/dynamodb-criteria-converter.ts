@@ -11,10 +11,10 @@ interface DynamoDBFilter {
 }
 
 interface DynamoDBQuery {
-  filter: string;
-  values: { [key: string]: any };
-  attributeNames: AttributeNames;
-  limit: number;
+  filter: string | undefined;
+  values: { [key: string]: any } | undefined;
+  attributeNames: AttributeNames | undefined;
+  limit: number | undefined;
 }
 
 interface TransformerFunction<T, K> {
@@ -37,10 +37,10 @@ export class DynamoDBCriteriaConverter {
 
   public convert(criteria: Criteria): DynamoDBQuery {
     return {
-      filter: criteria.hasFilters() ? this.generateFilter(criteria.filters).filter : '',
-      values: criteria.hasFilters() ? this.generateFilter(criteria.filters).values : {},
-      attributeNames: criteria.hasFilters() ? this.getExpressionAttributeNames(criteria.filters) : {},
-      limit: criteria.limit || 0
+      filter: criteria.hasFilters() ? this.generateFilter(criteria.filters).filter : undefined,
+      values: criteria.hasFilters() ? this.generateFilter(criteria.filters).values : undefined,
+      attributeNames: criteria.hasFilters() ? this.getExpressionAttributeNames(criteria.filters) : undefined,
+      limit: criteria.limit || undefined
     };
   }
 
