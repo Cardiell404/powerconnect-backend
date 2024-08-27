@@ -7,14 +7,32 @@ import {
   InMemoryCommandBus,
   QueryHandlers,
   InMemoryQueryBus,
-  CryptoFactory
+  CryptoFactory,
+  JwtFactory,
+  AuthMiddleware
 } from '@powerconnect/shared';
+import { JwtConfigFactory } from '../../infrastructure/jwt/jwt-config-factory';
 
 const sharedContainer = new ContainerBuilder();
+
+sharedContainer.setDefinition(
+  'Shared.JwtConfig',
+  createDefinition({ object: JwtConfigFactory, method: 'createConfig' })
+);
+sharedContainer.setDefinition(
+  'Shared.JwtManager',
+  createDefinition({ object: JwtFactory, args: [sharedContainer.get('Shared.JwtConfig')] })
+);
 
 sharedContainer.setDefinition('Shared.Logger', createDefinition({ object: WinstonLogger }));
 
 sharedContainer.setDefinition('Shared.Crypto', createDefinition({ object: CryptoFactory }));
+
+sharedContainer.setDefinition(
+  'Shared.JwtMiddleware',
+  createDefinition({ object: AuthMiddleware, args: [sharedContainer.get('Shared.JwtManager')] })
+);
+
 
 // ------------------------------------------------------------------------------------------------------------
 
