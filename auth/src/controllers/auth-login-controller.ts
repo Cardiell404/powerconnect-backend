@@ -1,15 +1,12 @@
-import { CryptoImplement, QueryBus, ValidateFields } from '@powerconnect/shared';
+import { ValidateFields } from '@powerconnect/shared';
 import { Request, Response } from 'express';
 import { body, ValidationChain } from 'express-validator';
-import { AuthLoginResponse } from '../application/login/auth-login-response';
-import { AuthQuery } from '../application/login/auth-query';
 import httpStatus from 'http-status';
+import { AuthService } from '../application/login/auth-service';
+import { Controller } from './controller';
 
-export class AuthLoginController extends ValidateFields {
-  constructor(
-    private queryBus: QueryBus,
-    private crypto: CryptoImplement
-  ) {
+export default class AuthLoginController extends ValidateFields implements Controller {
+  constructor(private authService: AuthService) {
     super();
   }
 
@@ -30,13 +27,8 @@ export class AuthLoginController extends ValidateFields {
   }
 
   private async login(req: Request, res: Response): Promise<void> {
-    const { email } = req.body;
-    let { password } = req.body;
-    password = this.crypto.encryptPassword(password);
-    const queryResponse = await this.queryBus.ask<AuthLoginResponse>(new AuthQuery({ email, password }));
-    req.session = {
-      jwt: queryResponse.token
-    };
-    res.status(httpStatus.OK).send(queryResponse.user);
+    const { email, password } = req.body;
+    const response = await this.authService.run(email, password);
+    res.status(httpStatus.OK).send({ accessToken: response.accessToken, refreshToken: response.refreshToken });
   }
 }

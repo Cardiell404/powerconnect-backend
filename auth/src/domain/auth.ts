@@ -1,41 +1,139 @@
-import { AuthPassword } from './value-objects/auth-password';
-import { AuthEmail } from './value-objects/auth-email';
-import { AuthId, AggregateRoot } from '@powerconnect/shared';
-import { UserName } from './user-name';
+import { AuthHashedPassword } from './value-objects/auth-hashed-password';
+import {
+  AggregateRoot,
+  AuthUserId,
+  Email,
+  CreatedAt,
+  LastUpdated,
+  Uuid,
+  AuthCreatedDomainEvent
+} from '@powerconnect/shared';
+import { AuthRefreshToken } from './value-objects/auth-refresh-token';
+import { AuthRefreshTokenExpiresAt } from './value-objects/auth-refresh-token-expires-at';
+import { AuthCreateData } from './types/auth-create-data';
 
 export class Auth extends AggregateRoot {
-  readonly id: AuthId;
-  readonly email: AuthEmail;
-  readonly password: AuthPassword;
-  readonly username: UserName;
+  readonly authUserId: AuthUserId;
+  readonly email: Email;
+  readonly hashedPassword: AuthHashedPassword;
+  readonly createdAt: CreatedAt;
+  readonly lastUpdated: LastUpdated;
+  readonly refreshToken?: AuthRefreshToken;
+  readonly refreshTokenExpiresAt?: AuthRefreshTokenExpiresAt;
 
-  constructor(id: AuthId, email: AuthEmail, password: AuthPassword, username: UserName) {
+  constructor({
+    authUserId,
+    email,
+    hashedPassword,
+    createdAt,
+    lastUpdated,
+    refreshToken,
+    refreshTokenExpiresAt
+  }: {
+    authUserId: AuthUserId;
+    email: Email;
+    hashedPassword: AuthHashedPassword;
+    createdAt: CreatedAt;
+    lastUpdated: LastUpdated;
+    refreshToken?: AuthRefreshToken;
+    refreshTokenExpiresAt?: AuthRefreshTokenExpiresAt;
+  }) {
     super();
+    this.authUserId = authUserId;
     this.email = email;
-    this.password = password;
-    this.id = id;
-    this.username = username;
+    this.hashedPassword = hashedPassword;
+    this.createdAt = createdAt;
+    this.lastUpdated = lastUpdated;
+    this.refreshToken = refreshToken;
+    this.refreshTokenExpiresAt = refreshTokenExpiresAt;
   }
 
-  static create(id: AuthId, email: AuthEmail, password: AuthPassword, username: UserName): Auth {
-    return new Auth(id, email, password, username);
-  }
-
-  static fromPrimitives(plainData: { id: string; email: string; password: string; username: string }): Auth {
-    return new Auth(
-      new AuthId(plainData.id),
-      new AuthEmail(plainData.email),
-      new AuthPassword(plainData.password),
-      new UserName(plainData.username)
+  static create({ authUserId, email, hashedPassword, name, phoneNumber }: AuthCreateData): Auth {
+    const auth = new Auth({
+      authUserId,
+      email,
+      hashedPassword,
+      createdAt: CreatedAt.now(),
+      lastUpdated: LastUpdated.now()
+    });
+    auth.record(
+      new AuthCreatedDomainEvent({
+        aggregateId: Uuid.random().value,
+        authUserId: authUserId.value,
+        email: email.value,
+        name: name.value,
+        phoneNumber: phoneNumber.value
+      })
     );
+    return auth;
   }
 
-  toPrimitives(): { id: string; email: string; password: string; username: string } {
+  static updateRefreshToken(existingAuth: Auth, refreshToken: AuthRefreshToken, refreshTokenExpiresAt: AuthRefreshTokenExpiresAt): Auth {
+    return new Auth({
+      ...existingAuth,
+      refreshToken,
+      refreshTokenExpiresAt,
+      lastUpdated: LastUpdated.now()
+    })
+  }
+
+  static invalidateRefreshToken(existingAuth: Auth): Auth {
+    return new Auth({
+      ...existingAuth,
+      lastUpdated: LastUpdated.now(),
+      refreshToken: undefined,
+      refreshTokenExpiresAt: undefined
+    })
+  }
+
+  isRefreshTokenValid(token?: string): boolean {
+    if(!this.refreshToken?.value || !this.refreshTokenExpiresAt?.value) {
+      return false;
+    }
+    const isTokenValid = this.refreshToken.value == token;
+    const isTokenNotExpired = new Date() < this.refreshTokenExpiresAt.value;
+    return isTokenValid && isTokenNotExpired;
+  }
+
+  static fromPrimitives(plainData: {
+    authUserId: string;
+    email: string;
+    hashedPassword: string;
+    createdAt: string;
+    lastUpdated: string;
+    refreshToken?: string;
+    refreshTokenExpiresAt?: string;
+  }): Auth {
+    return new Auth({
+      authUserId: new AuthUserId(plainData.authUserId),
+      email: new Email(plainData.email),
+      hashedPassword: new AuthHashedPassword(plainData.hashedPassword),
+      createdAt: new CreatedAt(new Date(plainData.createdAt)),
+      lastUpdated: new LastUpdated(new Date(plainData.lastUpdated)),
+      refreshToken: plainData.refreshToken ? new AuthRefreshToken(plainData.refreshToken) : undefined,
+      refreshTokenExpiresAt: plainData.refreshTokenExpiresAt
+        ? new AuthRefreshTokenExpiresAt(new Date(plainData.refreshTokenExpiresAt))
+        : undefined
+    });
+  }
+
+  toPrimitives(): {
+    authUserId: string;
+    email: string;
+    hashedPassword: string;
+    createdAt: string;
+    lastUpdated: string;
+    refreshToken: string | undefined;
+    refreshTokenExpiresAt: string | undefined;
+  } {
     return {
-      id: this.id.toString(),
+      authUserId: this.authUserId.toString(),
       email: this.email.toString(),
-      password: this.password.toString(),
-      username: this.username.toString()
+      hashedPassword: this.hashedPassword.toString(),
+      createdAt: this.createdAt.format(),
+      lastUpdated: this.lastUpdated.format(),
+      refreshToken: this.refreshToken?.toString(),
+      refreshTokenExpiresAt: this.refreshTokenExpiresAt?.format()
     };
   }
 }

@@ -1,7 +1,9 @@
 export interface IAuth {
-  readonly id: string;
-  readonly username: string;
+  readonly authUserId: string;
   readonly email: string;
-  readonly password: string;
-  readonly avatar?: string;
+  readonly hashedPassword: string;
+  readonly createdAt: string;
+  readonly lastUpdated: string;
+  readonly refreshToken?: string;
+  readonly refreshTokenExpiresAt?: string;
 }

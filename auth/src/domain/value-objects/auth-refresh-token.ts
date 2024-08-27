@@ -1,3 +1,3 @@
 import { StringValueObject } from '@powerconnect/shared';
 
-export class AuthEmail extends StringValueObject {}
+export class AuthRefreshToken extends StringValueObject {}

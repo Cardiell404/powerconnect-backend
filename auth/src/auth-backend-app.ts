@@ -1,7 +1,7 @@
 import { IncomingMessage, Server as HttpServer, ServerResponse } from 'http';
 import { Server } from './server';
 import container from './dependency-injection';
-import { DomainEventSubscribers, EventBus, RabbitMQConnection } from '@powerconnect/shared';
+import { RabbitMQConnection } from '@powerconnect/shared';
 
 export class AuthBackendApp {
   server?: Server;
@@ -25,9 +25,7 @@ export class AuthBackendApp {
   }
 
   private async configureEventBus(): Promise<void> {
-    const eventBus = container.get<EventBus>('Shared.domain.EventBus');
     const rabbitMQConnection = container.get<RabbitMQConnection>('Shared.RabbitMQConnection');
     await rabbitMQConnection.connect();
-    eventBus.addSubscribers(DomainEventSubscribers.from(container));
   }
 }

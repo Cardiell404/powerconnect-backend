@@ -10,7 +10,7 @@ import {
   QueryHandlers,
   InMemoryQueryBus,
   JwtFactory,
-  JwtMiddleware,
+  AuthMiddleware,
   CryptoFactory,
   RabbitMQConnection,
   RabbitMQqueueFormatter,
@@ -23,12 +23,13 @@ import { DynamoConfigFactory } from '../../infrastructure/persistence/dynamo/dyn
 import { RabbitMQConfigFactory } from '../../infrastructure/rabbitmq/rabbit-mq-config-factory';
 import { RabbitMQEventBusFactory } from '../../infrastructure/rabbitmq/rabbit-mq-event-bus-factory';
 import { DynamoAuthRepository } from '../../infrastructure/persistence/dynamo/dynamo-auth-repository';
-import { AuthLogin } from '../../application/login/auth-login';
-import { AuthCurrentUser } from '../../application/current-user/auth-current-user';
-import AuthCurrentUserQueryHandler from '../../application/current-user/auth-current-user-query-handler';
-import { AuthQueryHandler } from '../../application/login/auth-query-handler';
-import { AuthCreationService } from '../../application/events/created/auth-creation-service';
-import { AuthOnUserCreatedListener } from '../../application/events/created/auth-on-user-created-listener';
+import { AuthService } from '../../application/login/auth-service';
+import { AuthRefreshToken } from '../../application/refresh-token/auth-refresh-token';
+import AuthRefreshTokenQueryHandler from '../../application/refresh-token/auth-refresh-token-query-handler';
+import { AuthSignUp } from '../../application/signup/auth-sign-up';
+import { AuthSignUpCommandHandler } from '../../application/signup/auth-sign-up-command-handler';
+import { AuthLogoutCommandHandler } from '../../application/logout/auth-logout-command-handler';
+import { AuthLogout } from '../../application/logout/auth-logout';
 
 const sharedContainer = new ContainerBuilder();
 sharedContainer.setDefinition(
@@ -70,7 +71,7 @@ sharedContainer.setDefinition('Shared.Logger', createDefinition({ object: Winsto
 
 sharedContainer.setDefinition(
   'Shared.JwtMiddleware',
-  createDefinition({ object: JwtMiddleware, args: [sharedContainer.get('Shared.JwtManager')] })
+  createDefinition({ object: AuthMiddleware, args: [sharedContainer.get('Shared.JwtManager')] })
 );
 
 sharedContainer.setDefinition('Shared.Crypto', createDefinition({ object: CryptoFactory }));
@@ -118,31 +119,40 @@ sharedContainer.register('Auth.AuthRepository', DynamoAuthRepository, [
   sharedContainer.get('Shared.ConnectionManager')
 ]);
 
-sharedContainer.register('Auth.AuthLogin', AuthLogin, [
+sharedContainer.register('Auth.AuthService', AuthService, [
+  sharedContainer.get('Auth.AuthRepository'),
+  sharedContainer.get('Shared.JwtManager'),
+  sharedContainer.get('Shared.Crypto')
+]);
+
+sharedContainer.register('Auth.AuthSignUp', AuthSignUp, [
+  sharedContainer.get('Auth.AuthRepository'),
+  sharedContainer.get('Shared.domain.EventBus'),
+  sharedContainer.get('Shared.Crypto')
+]);
+
+sharedContainer.register('Auth.AuthRefreshToken', AuthRefreshToken, [
   sharedContainer.get('Auth.AuthRepository'),
   sharedContainer.get('Shared.JwtManager')
 ]);
 
-sharedContainer.register('Auth.AuthCurrentUser', AuthCurrentUser, [sharedContainer.get('Auth.AuthRepository')]);
+sharedContainer.register('Auth.AuthLogout', AuthLogout, [
+  sharedContainer.get('Auth.AuthRepository')
+]);
 
 sharedContainer
-  .register('Auth.AuthCurrentUserQueryHandler', AuthCurrentUserQueryHandler, [
-    sharedContainer.get('Auth.AuthCurrentUser')
+  .register('Auth.AuthSignUpCommandHandler', AuthSignUpCommandHandler, [sharedContainer.get('Auth.AuthSignUp')])
+  .addTag('commandHandler');
+
+sharedContainer
+  .register('Auth.AuthCurrentUserQueryHandler', AuthRefreshTokenQueryHandler, [
+    sharedContainer.get('Auth.AuthRefreshToken')
   ])
   .addTag('queryHandler');
 
 sharedContainer
-  .register('Auth.AuthQueryHandler', AuthQueryHandler, [sharedContainer.get('Auth.AuthLogin')])
-  .addTag('queryHandler');
-
-sharedContainer
-  .register('Auth.AuthEventCreator', AuthCreationService, [
-    sharedContainer.get('Auth.AuthRepository')
-  ])
-
-sharedContainer
-  .register('Auth.AuthCreated', AuthOnUserCreatedListener, [sharedContainer.get('Auth.AuthEventCreator')])
-  .addTag('domainEventSubscriber');
+.register('Auth.AuthLogoutCommandHandler', AuthLogoutCommandHandler, [sharedContainer.get('Auth.AuthLogout')])
+.addTag('commandHandler');
 
 // ------------------------------------------------------------------------------------------------------------
 sharedContainer.setDefinition(

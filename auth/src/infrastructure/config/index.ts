@@ -110,12 +110,24 @@ const powerConnectConfig = convict({
     }
   },
   jwt: {
-    encrypt: {
-      doc: 'password encrypt',
+    secretKey: {
+      doc: 'secret key',
       format: String,
-      env: 'JWT_ENCRYPT',
+      env: 'JWT_SECRET_KEY',
       default: ''
-    }
+    },
+    accessTokenExpiresIn: {
+      doc: 'secret key',
+      format: String,
+      env: 'JWT_ACCESS_TOKEN_EXPIRES_IN',
+      default: '1h'
+    },
+    refreshTokenExpiresIn: {
+      doc: 'secret key',
+      format: String,
+      env: 'JWT_REFRESH_TOKEN_EXPIRES_IN',
+      default: '7d'
+    },
   }
 });
 

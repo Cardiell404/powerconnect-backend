@@ -21,7 +21,7 @@ export class Server {
     this.port = port;
     this.logger = container.get('Shared.Logger');
     this.express = express();
-    this.express.set('trust proxy', true);
+    this.express.set('trust proxy', 1);
     this.express.use(
       cookieSession({
         signed: false,
