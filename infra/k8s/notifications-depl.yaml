@@ -15,6 +15,7 @@ spec:
       containers:
         - name: notifications
           image: powerconnect/notifications
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 3000
           securityContext:
@@ -22,7 +23,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-            readOnlyRootfilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: true
             runAsUser: 1000
           resources:
