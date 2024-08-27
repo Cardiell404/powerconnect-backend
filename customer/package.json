@@ -10,7 +10,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "npm run rabbitmq && node ./dist/src/start.js",
+    "start": "node ./dist/src/start.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/start.ts",
     "start:prod": "npm run build && node /dist/src/start",
     "build": "npm run clean && npm run build:tsc && npm run copy:di",
@@ -38,11 +38,10 @@
     "ci:install": "npm ci",
     "ci:test": "npm run lint && npm run test:coverage",
     "ci:build": "npm run build",
-    "ci:deploy": "npm run deploy",
-    "rabbitmq": "node ./dist/src/command/run-configure-rabbit-mq-command.js"
+    "ci:deploy": "npm run deploy"
   },
   "dependencies": {
-    "@powerconnect/shared": "0.0.20",
+    "@powerconnect/shared": "0.0.33",
     "compression": "^1.7.4",
     "convict": "^6.2.4",
     "cookie-session": "^2.0.0",

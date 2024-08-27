@@ -41,7 +41,7 @@
     "ci:deploy": "npm run deploy"
   },
   "dependencies": {
-    "@powerconnect/shared": "0.0.11",
+    "@powerconnect/shared": "0.0.33",
     "compression": "^1.7.4",
     "convict": "^6.2.4",
     "cookie-session": "^2.0.0",
