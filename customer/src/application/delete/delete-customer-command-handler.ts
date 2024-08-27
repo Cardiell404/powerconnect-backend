@@ -1,7 +1,6 @@
-import { Command, CommandHandler } from '@powerconnect/shared';
+import { Command, CommandHandler, CustomerId } from '@powerconnect/shared';
 import { DeleteCustomerCommand } from './delete-customer-command';
 import { CustomerDeleter } from './customer-deleter';
-import { CustomerId } from '../../domain/value-objects/customer-id';
 
 export class DeleteCustomerCommandHandler implements CommandHandler<DeleteCustomerCommand> {
   constructor(private customerDeleter: CustomerDeleter) {}

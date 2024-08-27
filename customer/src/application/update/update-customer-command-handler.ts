@@ -3,20 +3,20 @@ import {
   City,
   Command,
   CommandHandler,
+  CustomerId,
   DateOfBirth,
   Email,
   FirstName,
   LastName,
   PhoneNumber,
   State,
+  Status,
   Street,
   ZipCode
 } from '@powerconnect/shared';
 import { CustomerUpdater } from './customer-updater';
 import { UpdateCustomerCommand } from './update-customer-command';
-import { CustomerId } from '../../domain/value-objects/customer-id';
 import { CustomerIdentificationNumber } from '../../domain/value-objects/customer-identification-number';
-import { CustomerStatus } from '../../domain/value-objects/customer-status';
 import { CustomerType } from '../../domain/value-objects/customer-type';
 import { BillingInfo } from '../../domain/value-objects/billing-info';
 import { Location } from '../../domain/value-objects/location';
@@ -41,7 +41,7 @@ export class UpdateCustomerCommandHandler implements CommandHandler<UpdateCustom
     const email = new Email(command.email);
     const dateOfBirth = new DateOfBirth(command.dateOfBirth);
     const identificationNumber = new CustomerIdentificationNumber(command.identificationNumber);
-    const status = new CustomerStatus(command.status);
+    const status = new Status(command.status);
     const type = new CustomerType(command.type);
     const billingInfo = new BillingInfo(
       new Address(

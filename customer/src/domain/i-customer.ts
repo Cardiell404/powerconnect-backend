@@ -21,5 +21,4 @@ export interface ICustomer {
   readonly status: string;
   readonly lastUpdated: string;
   readonly createdAt: string;
-  readonly createdBy: string;
 }

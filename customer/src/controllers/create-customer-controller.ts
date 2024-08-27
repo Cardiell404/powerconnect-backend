@@ -16,8 +16,6 @@ export class CreateCustomerController implements Controller {
     const dateOfBirth: string = req.body.dateOfBirth;
     const type: string = req.body.type;
     const phoneNumber: string = req.body.phoneNumber;
-    const status: string = req.body.status;
-    const createdBy: string = req.body.createdBy;
     const billingInfo = req.body.billingInfo;
     const locations = req.body.locations;
     const createCustomerCommand = new CreateCustomerCommand({
@@ -30,9 +28,7 @@ export class CreateCustomerController implements Controller {
       dateOfBirth,
       billingInfo,
       locations,
-      phoneNumber,
-      status,
-      createdBy
+      phoneNumber
     });
     await this.commandBus.dispatch(createCustomerCommand);
     res.status(httpStatus.CREATED).send({ id: customerId });

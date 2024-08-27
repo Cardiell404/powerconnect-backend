@@ -22,14 +22,10 @@ export class CustomerCreator {
     email,
     dateOfBirth,
     identificationNumber,
-    status,
     type,
-    createdBy,
     billingInfo,
     locations,
-    phoneNumber,
-    createdAt,
-    lastUpdated
+    phoneNumber
   }: CustomerCreateData): Promise<void> {
     const existCustomer = await this.repository.getCustomerByFilters(
       FiltersMapping.customerIdentificationNumberAndHidden(identificationNumber.value)
@@ -44,15 +40,11 @@ export class CustomerCreator {
       lastName,
       email,
       dateOfBirth,
-      status,
       type,
-      createdBy,
       billingInfo,
       locations,
       phoneNumber,
-      identificationNumber,
-      createdAt,
-      lastUpdated
+      identificationNumber
     });
     await this.repository.saveCustomer(customer);
     await this.bus.publish(customer.pullDomainEvents());

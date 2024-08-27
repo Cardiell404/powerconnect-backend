@@ -64,7 +64,7 @@ const powerConnectConfig = convict({
           doc: 'RabbitMQ hostname',
           format: String,
           env: 'RABBITMQ_HOSTNAME',
-          default: '127.0.0.1'
+          default: 'rabbitmq-srv'
         },
         port: {
           doc: 'RabbitMQ amqp port',

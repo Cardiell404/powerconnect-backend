@@ -29,7 +29,6 @@ export class GetAllCustomersController implements Controller {
       billingInfo: customer?.billingInfo.toPrimitives(),
       locations: customer?.locations.map(location => location.toPrimitives()),
       lastupdated: customer?.lastUpdated.toString(),
-      createdBy: customer?.createdBy.toString(),
       createdAt: customer?.createdAt.toString()
     }));
   }

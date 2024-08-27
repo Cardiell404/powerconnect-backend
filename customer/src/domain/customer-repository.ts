@@ -1,6 +1,5 @@
-import { Filters, Nullable } from '@powerconnect/shared';
+import { CustomerId, Filters, Nullable } from '@powerconnect/shared';
 import { Customer } from './customer';
-import { CustomerId } from './value-objects/customer-id';
 
 export interface CustomerRepository {
   saveCustomer(customer: Customer): Promise<void>;

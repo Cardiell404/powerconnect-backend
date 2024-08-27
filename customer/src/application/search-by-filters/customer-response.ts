@@ -22,7 +22,6 @@ export class CustomerResponse {
       billingInfo: this.customer?.billingInfo.toPrimitives(),
       locations: this.customer?.locations.map(location => location.toPrimitives()),
       lastupdated: this.customer?.lastUpdated.value,
-      createdBy: this.customer?.createdBy.value,
       createdAt: this.customer?.createdAt.value
     };
   }

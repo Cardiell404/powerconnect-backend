@@ -1,8 +1,7 @@
-import { Nullable, DynamoDBRepository, Filters } from '@powerconnect/shared';
+import { Nullable, DynamoDBRepository, Filters, CustomerId } from '@powerconnect/shared';
 import { Customer } from '../../../domain/customer';
 import { CustomerRepository } from '../../../domain/customer-repository';
 import { ICustomer } from '../../../domain/i-customer';
-import { CustomerId } from '../../../domain/value-objects/customer-id';
 
 export class DynamoCustomerRepository extends DynamoDBRepository<Customer> implements CustomerRepository {
   protected tableName = 'Customer';
@@ -22,7 +21,6 @@ export class DynamoCustomerRepository extends DynamoDBRepository<Customer> imple
         locations: customer.locations,
         lastUpdated: customer.lastUpdated,
         createdAt: customer.createdAt,
-        createdBy: customer.createdBy,
         phoneNumber: customer.phoneNumber,
         type: customer.type
       })
@@ -44,7 +42,6 @@ export class DynamoCustomerRepository extends DynamoDBRepository<Customer> imple
           locations: customer.locations,
           lastUpdated: customer.lastUpdated,
           createdAt: customer.createdAt,
-          createdBy: customer.createdBy,
           phoneNumber: customer.phoneNumber,
           type: customer.type
         })
@@ -66,7 +63,6 @@ export class DynamoCustomerRepository extends DynamoDBRepository<Customer> imple
           locations: customer.locations,
           lastUpdated: customer.lastUpdated,
           createdAt: customer.createdAt,
-          createdBy: customer.createdBy,
           phoneNumber: customer.phoneNumber,
           type: customer.type
         })

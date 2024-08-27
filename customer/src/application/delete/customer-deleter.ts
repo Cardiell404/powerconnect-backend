@@ -1,6 +1,5 @@
-import { EventBus } from '@powerconnect/shared';
+import { CustomerId, EventBus } from '@powerconnect/shared';
 import { CustomerRepository } from '../../domain/customer-repository';
-import { CustomerId } from '../../domain/value-objects/customer-id';
 import { Customer } from '../../domain/customer';
 import { FiltersMapping } from '../../utils/FiltersMapping';
 import { CustomerNotExist } from '../../domain/errors/customer-not-exist';

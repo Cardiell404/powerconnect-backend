@@ -4,8 +4,8 @@ import {
   AggregateRoot,
   City,
   CreatedAt,
-  CreatedBy,
   CustomerCreatedDomainEvent,
+  CustomerId,
   DateOfBirth,
   Email,
   FirstName,
@@ -13,14 +13,13 @@ import {
   LastUpdated,
   PhoneNumber,
   State,
+  Status,
   Street,
   Uuid,
   ZipCode
 } from '@powerconnect/shared';
-import { CustomerId } from './value-objects/customer-id';
 import { CustomerIdentificationNumber } from './value-objects/customer-identification-number';
 import { CustomerType } from './value-objects/customer-type';
-import { CustomerStatus } from './value-objects/customer-status';
 import { BillingInfo } from './value-objects/billing-info';
 import { Location } from './value-objects/location';
 import { CustomerCreateData } from './types/customer-create-data';
@@ -43,10 +42,9 @@ export class Customer extends AggregateRoot {
   readonly billingInfo: BillingInfo;
   readonly locations: Array<Location>;
   readonly identificationNumber: CustomerIdentificationNumber;
-  readonly status: CustomerStatus;
+  readonly status: Status;
   readonly createdAt: CreatedAt;
   readonly lastUpdated: LastUpdated;
-  readonly createdBy: CreatedBy;
 
   constructor({
     customerId,
@@ -61,12 +59,11 @@ export class Customer extends AggregateRoot {
     billingInfo,
     locations,
     createdAt,
-    createdBy,
     lastUpdated
   }: {
     customerId: CustomerId;
     identificationNumber: CustomerIdentificationNumber;
-    status: CustomerStatus;
+    status: Status;
     firstName: FirstName;
     lastName: LastName;
     email: Email;
@@ -76,7 +73,6 @@ export class Customer extends AggregateRoot {
     billingInfo: BillingInfo;
     locations: Array<Location>;
     createdAt: CreatedAt;
-    createdBy: CreatedBy;
     lastUpdated: LastUpdated;
   }) {
     super();
@@ -92,30 +88,32 @@ export class Customer extends AggregateRoot {
     this.billingInfo = billingInfo;
     this.locations = locations;
     this.createdAt = createdAt;
-    this.createdBy = createdBy;
     this.lastUpdated = lastUpdated;
   }
 
   static create(customerCreateData: CustomerCreateData): Customer {
     const customer = new Customer({
-      ...customerCreateData
+      ...customerCreateData,
+      status: new Status('pending'),
+      createdAt: CreatedAt.now(),
+      lastUpdated: LastUpdated.now()
     });
 
     customer.record(
       new CustomerCreatedDomainEvent({
         aggregateId: Uuid.random().value,
         customerId: customer.customerId.value,
-        customerName: `${customer.firstName?.value} ${customer.lastName?.value}`,
+        fullName: `${customer.firstName?.value} ${customer.lastName?.value}`,
         customerType: customer.type?.value,
         customerIdentificationNumber: customer.identificationNumber?.value,
         email: customer.email?.value,
+        phoneNumber: customer.phoneNumber.value,
         dateOfBirth: customer.dateOfBirth?.value,
         billingInfo: customer.billingInfo.toPrimitives(),
         locations: customer.locations.map(location => location.toPrimitives()),
-        customerStatus: customer.status?.value,
+        status: customer.status?.value,
         lasUpdated: customer.lastUpdated?.format(),
-        createdAt: customer.createdAt?.format(),
-        createdBy: customer.createdBy?.value
+        createdAt: customer.createdAt?.format()
       })
     );
 
@@ -134,7 +132,7 @@ export class Customer extends AggregateRoot {
   static delete(existingCustomer: Customer): Customer {
     return new Customer({
       ...existingCustomer,
-      status: new CustomerStatus('inactive'),
+      status: new Status('inactive'),
       lastUpdated: LastUpdated.now()
     });
   }
@@ -162,7 +160,6 @@ export class Customer extends AggregateRoot {
     status: string;
     createdAt: string;
     lastUpdated: string;
-    createdBy: string;
   }): Customer {
     return new Customer({
       customerId: new CustomerId(plainData.customerId),
@@ -199,10 +196,9 @@ export class Customer extends AggregateRoot {
         );
       }),
       identificationNumber: new CustomerIdentificationNumber(plainData.identificationNumber),
-      status: new CustomerStatus(plainData.status),
+      status: new Status(plainData.status),
       createdAt: new CreatedAt(new Date(plainData.createdAt)),
-      lastUpdated: new LastUpdated(new Date(plainData.lastUpdated)),
-      createdBy: new CreatedBy(plainData.createdBy)
+      lastUpdated: new LastUpdated(new Date(plainData.lastUpdated))
     });
   }
 
@@ -220,8 +216,7 @@ export class Customer extends AggregateRoot {
       identificationNumber: this.identificationNumber.value,
       status: this.status.value,
       createdAt: this.createdAt.format(),
-      lastUpdated: this.lastUpdated.format(),
-      createdBy: this.createdBy.value
+      lastUpdated: this.lastUpdated.format()
     };
   }
 }

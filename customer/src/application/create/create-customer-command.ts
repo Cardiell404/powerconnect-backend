@@ -20,8 +20,6 @@ type Params = {
     meterIds: string[];
   }[];
   phoneNumber: string;
-  status: string;
-  createdBy: string;
 };
 
 export class CreateCustomerCommand extends Command {
@@ -44,8 +42,6 @@ export class CreateCustomerCommand extends Command {
     meterIds: string[];
   }[];
   public readonly phoneNumber: string;
-  public readonly status: string;
-  public readonly createdBy: string;
 
   constructor({
     customerId,
@@ -57,9 +53,7 @@ export class CreateCustomerCommand extends Command {
     dateOfBirth,
     billingInfo,
     locations,
-    phoneNumber,
-    status,
-    createdBy
+    phoneNumber
   }: Params) {
     super();
     this.customerId = customerId;
@@ -72,7 +66,5 @@ export class CreateCustomerCommand extends Command {
     this.billingInfo = billingInfo;
     this.locations = locations;
     this.phoneNumber = phoneNumber;
-    this.status = status;
-    this.createdBy = createdBy;
   }
 }
