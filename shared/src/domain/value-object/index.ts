@@ -18,3 +18,6 @@ export * from './phone-number';
 export * from './state';
 export * from './street';
 export * from './zip-code';
+export * from './status';
+export * from './customer-id';
+export * from './full-name';

@@ -1,6 +1,6 @@
 {
   "name": "@powerconnect/shared",
-  "version": "0.0.20",
+  "version": "0.0.33",
   "private": false,
   "description": "",
   "main": "./build/index.js",
@@ -10,9 +10,12 @@
   ],
   "scripts": {
     "pub": "npm version patch && npm run build && npm publish --access public",
+    "pub:windows": "npm version patch && npm run build:windows && npm publish --access public",
     "build": "npm run clean && tsc",
+    "build:windows": "npm run clean:windows && tsc",
     "build:tsc": "tsc -p tsconfig.json",
     "clean": "rm -rf build/* ",
+    "clean:windows": "if exist build (rmdir /s /q build)",
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
     "security:audit": "npm audit --json > security_report.json",

@@ -1,7 +1,7 @@
 export * from './criteria/index';
 export * from './user/user-id';
 export * from './user/user-avatar';
-export * from './auth/auth-id';
+export * from './auth/auth-user-id';
 export * from './value-object/index';
 export * from './errors/index';
 

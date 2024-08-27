@@ -3,10 +3,11 @@ import { DomainEvent } from '../domain-event';
 type CreateCustomerDomainEventBody = {
   readonly eventName: string;
   readonly customerId: string;
-  readonly customerName: string;
+  readonly fullName: string;
   readonly customerType: string;
   readonly customerIdentificationNumber: string;
   readonly email: string;
+  readonly phoneNumber: string;
   readonly dateOfBirth: string;
   readonly billingInfo: {
     billingAddress: { street: string; city: string; state: string; zipCode: string };
@@ -19,20 +20,20 @@ type CreateCustomerDomainEventBody = {
     address: { street: string; city: string; state: string; zipCode: string };
     meterIds: string[];
   }[];
-  readonly customerStatus: string;
+  readonly status: string;
   readonly lasUpdated: string;
   readonly createdAt: string;
-  readonly createdBy: string;
 };
 
 export class CustomerCreatedDomainEvent extends DomainEvent {
   static readonly EVENT_NAME = 'customer.created';
 
   readonly customerId: string;
-  readonly customerName: string;
+  readonly fullName: string;
   readonly customerType: string;
   readonly customerIdentificationNumber: string;
   readonly email: string;
+  readonly phoneNumber: string;
   readonly dateOfBirth: string;
   readonly billingInfo: {
     billingAddress: { street: string; city: string; state: string; zipCode: string };
@@ -45,34 +46,34 @@ export class CustomerCreatedDomainEvent extends DomainEvent {
     address: { street: string; city: string; state: string; zipCode: string };
     meterIds: string[];
   }[];
-  readonly customerStatus: string;
+  readonly status: string;
   readonly lasUpdated: string;
   readonly createdAt: string;
-  readonly createdBy: string;
 
   constructor({
     aggregateId,
     customerId,
-    customerName,
+    fullName,
     customerType,
     customerIdentificationNumber,
     email,
+    phoneNumber,
     dateOfBirth,
     billingInfo,
     locations,
-    customerStatus,
+    status,
     lasUpdated,
     createdAt,
-    createdBy,
     eventId,
     occurredOn
   }: {
     aggregateId: string;
     customerId: string;
-    customerName: string;
+    fullName: string;
     customerType: string;
     customerIdentificationNumber: string;
     email: string;
+    phoneNumber: string;
     dateOfBirth: string;
     billingInfo: {
       billingAddress: { street: string; city: string; state: string; zipCode: string };
@@ -85,42 +86,41 @@ export class CustomerCreatedDomainEvent extends DomainEvent {
       address: { street: string; city: string; state: string; zipCode: string };
       meterIds: string[];
     }[];
-    customerStatus: string;
+    status: string;
     lasUpdated: string;
     createdAt: string;
-    createdBy: string;
     eventId?: string;
     occurredOn?: Date;
   }) {
     super({ eventName: CustomerCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn });
     this.customerId = customerId;
     this.customerType = customerType;
-    this.customerName = customerName;
+    this.fullName = fullName;
     this.billingInfo = billingInfo;
     this.customerIdentificationNumber = customerIdentificationNumber;
     this.createdAt = createdAt;
-    this.customerStatus = customerStatus;
+    this.status = status;
     this.dateOfBirth = dateOfBirth;
-    this.createdBy = createdBy;
     this.lasUpdated = lasUpdated;
     this.locations = locations;
     this.email = email;
+    this.phoneNumber = phoneNumber;
   }
 
   toPrimitives(): CreateCustomerDomainEventBody {
     return {
       eventName: CustomerCreatedDomainEvent.EVENT_NAME,
       customerId: this.customerId,
-      customerName: this.customerName,
+      fullName: this.fullName,
       customerType: this.customerType,
       email: this.email,
+      phoneNumber: this.phoneNumber,
       dateOfBirth: this.dateOfBirth,
       customerIdentificationNumber: this.customerIdentificationNumber,
       billingInfo: this.billingInfo,
       locations: this.locations,
-      customerStatus: this.customerStatus,
+      status: this.status,
       createdAt: this.createdAt,
-      createdBy: this.createdBy,
       lasUpdated: this.lasUpdated
     };
   }
@@ -135,16 +135,16 @@ export class CustomerCreatedDomainEvent extends DomainEvent {
     return new CustomerCreatedDomainEvent({
       aggregateId,
       customerId: attributes.customerId,
-      customerName: attributes.customerName,
+      fullName: attributes.fullName,
       customerType: attributes.customerType,
       email: attributes.email,
+      phoneNumber: attributes.phoneNumber,
       dateOfBirth: attributes.dateOfBirth,
       customerIdentificationNumber: attributes.customerIdentificationNumber,
       billingInfo: attributes.billingInfo,
       locations: attributes.locations,
-      customerStatus: attributes.customerStatus,
+      status: attributes.status,
       createdAt: attributes.createdAt,
-      createdBy: attributes.createdBy,
       lasUpdated: attributes.lasUpdated,
       eventId,
       occurredOn

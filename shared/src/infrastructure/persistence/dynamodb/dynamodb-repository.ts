@@ -46,10 +46,10 @@ export abstract class DynamoDBRepository<T extends AggregateRoot> {
     }
   }
 
-  protected async getItemById<D>(id: string): Promise<Nullable<D>> {
+  protected async getItemById<D>(key: { [key: string]: any }): Promise<Nullable<D>> {
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.tableName,
-      Key: { id }
+      Key: key
     };
     try {
       const result = await this._client.get(params).promise();

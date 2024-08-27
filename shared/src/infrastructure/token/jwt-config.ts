@@ -1,1 +1,5 @@
-export type JwtConfig = { encrypt: string };
+export type JwtConfig = {
+  secretKey: string;
+  accessTokenExpiresIn: string;
+  refreshTokenExpiresIn: string;
+};
