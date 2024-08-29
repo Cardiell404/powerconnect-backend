@@ -49,7 +49,7 @@ export class DynamoCustomerRepository extends DynamoDBRepository<Customer> imple
   }
 
   public async getCustomerById(customerId: CustomerId): Promise<Nullable<Customer>> {
-    const customer = await this.getItemById<ICustomer>(customerId.value);
+    const customer = await this.getItemById<ICustomer>({customerId: customerId.value});
     return customer
       ? Customer.fromPrimitives({
           customerId: customer.customerId,
